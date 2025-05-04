@@ -19,8 +19,8 @@ paru -S fht-compositor-git
 # Needed for screencast to work
 paru -S fht-share-picker-git
 
-# Recommended
-paru -S uwsm
+# Recommended and deps
+paru -S uwsm gtklock grim slurp wl-clipboard man
 
 # - [ ] alacritty : https://github.com/alacritty/alacritty
 # // TODO setup config https://alacritty.org/config-alacritty.html
@@ -35,7 +35,7 @@ sudo pacman -S alacritty
 cp config/alacritty/alacritty.toml ~/.config/alacritty/
 
 # - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
-sudo pacman -S wofi grim slurp wl-clipboard bat fastfetch lazygit
+sudo pacman -S wofi bat fastfetch lazygit
 
 # - [ ] mako : https://github.com/emersion/mako
 
@@ -44,6 +44,15 @@ sudo pacman -S wofi grim slurp wl-clipboard bat fastfetch lazygit
 # - [ ] swayidle / swaylock
 
 # - [ ] neovim
+
+# - [ ] hack nerd font
+curl --output-dir ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Hack.zip
+
+# - [ ] zsh
+cp ./config/zshrc ~/.zshrc
+
+# - [ ] starship
+curl -sS https://starship.rs/install.sh | sh
 
 # - [ ] tmux
 
@@ -59,6 +68,8 @@ sudo pacman -S polkit-gnome
 sudo pacman -S xdg-desktop-portal
 
 # - [ ] swww (wallpaper manager) https://github.com/LGFae/swww
+sudo pacman -S swww
+# TODO automatic install of wallpapers + create script to randomize + transition
 
 # - [ ] astal https://aylur.github.io/astal/
 
