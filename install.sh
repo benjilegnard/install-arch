@@ -12,13 +12,6 @@ git clone https://aur.archlinux.org/paru.git
 cd paru
 makepkg -si
 
-# - [ ] alacritty : https://github.com/alacritty/alacritty
-# // TODO setup config https://alacritty.org/config-alacritty.html
-
-# - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
-sudo pacman -S alacritty wofi grim slurp wl-clipboard
-sudo pacman -S bat fastfetch
-
 # - [ ] installation fht-compositor : https://nferhat.github.io/fht-compositor/
 # TODO: install manually, version is not in aur
 paru -S fht-compositor-git
@@ -28,6 +21,21 @@ paru -S fht-share-picker-git
 
 # Recommended
 paru -S uwsm
+
+# - [ ] alacritty : https://github.com/alacritty/alacritty
+# // TODO setup config https://alacritty.org/config-alacritty.html
+mkdir -p ~/.config/alacritty
+# download catppuccin mocha theme
+curl -LO --output-dir ~/.config/alacritty https://github.com/catppuccin/alacritty/raw/main/catppuccin-mocha.toml
+# replace bg color
+sed -i.bak '2s/1e1e2e/11111b/' ~/.config/alacritty/catppuccin-mocha.toml
+# install
+sudo pacman -S alacritty
+# copy config
+cp config/alacritty/alacritty.toml ~/.config/alacritty/
+
+# - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
+sudo pacman -S wofi grim slurp wl-clipboard bat fastfetch lazygit
 
 # - [ ] mako : https://github.com/emersion/mako
 
