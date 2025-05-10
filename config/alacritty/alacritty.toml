@@ -3,3 +3,4 @@ import = ["~/.config/alacritty/catppuccin-mocha.toml"]
 
 [font]
 size = 10
+normal = { family = "Hack Nerd Font", style = "Regular" }

@@ -1,27 +1,37 @@
 #!/bin/bash
-
+set -e
 # Arch package install script
 # We consider you have setup correctly an archlinux install from here
 
-# - [x] rust / cargo 
-sudo pacman -S rust
+# - [x] rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# - [x] git and cli tools needed
+sudo pacman -S git tmux zsh man zip unzip
 
-# - [ ] install paru : https://github.com/Morganamilo/paru
-sudo pacman -S --needed base-devel
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si
-
+# --------------
+# fht-compositor
+# --------------
 # - [ ] installation fht-compositor : https://nferhat.github.io/fht-compositor/
-# TODO: install manually, version is not in aur
-paru -S fht-compositor-git
+sudo pacman -S clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus mesa
+# Clone and build.
+git clone https://github.com/nferhat/fht-compositor/ && cd fht-compositor
 
-# Needed for screencast to work
-paru -S fht-share-picker-git
+cargo build --profile opt --features uwsm
+# You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
+sudo cp target/opt/fht-compositor /usr/local/bin/
+
+# Wayland session desktop files
+install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
+
 
 # Recommended and deps
-paru -S uwsm gtklock grim slurp wl-clipboard man
+sudo pacman -S uwsm gtklock grim slurp wl-clipboard libnewt libnotify
 
+cd -
+
+# ---------
+# alacritty
+# ---------
 # - [ ] alacritty : https://github.com/alacritty/alacritty
 # // TODO setup config https://alacritty.org/config-alacritty.html
 mkdir -p ~/.config/alacritty
@@ -41,20 +51,26 @@ sudo pacman -S wofi bat fastfetch lazygit
 
 # - [ ] wayland utils (wl-clipboard) https://github.com/sentriz/cliphist
 
-# - [ ] swayidle / swaylock
+# - [ ] swayidle / swaylock // TODO replace gtklock
 
 # - [ ] neovim
+sudo pacman -S neovim
+# // TODO config files
 
 # - [ ] hack nerd font
 curl --output-dir ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Hack.zip
 
 # - [ ] zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cp ./config/zshrc ~/.zshrc
 
 # - [ ] starship
 curl -sS https://starship.rs/install.sh | sh
 
+# fonts and emoji
+sudo pacman -S noto-fonts-emoji ttf-hack-nerd
 # - [ ] tmux
+# - [ ] tmux plugins : https://github.com/tmux-plugins/tpm
 
 # - [ ] yazi : https://yazi-rs.github.io/
 
@@ -74,3 +90,9 @@ sudo pacman -S swww
 # - [ ] astal https://aylur.github.io/astal/
 
 # - aylurs-gtk-shell-git (for developing astal, `)
+
+# node.js
+#
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+
