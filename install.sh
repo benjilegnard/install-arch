@@ -1,7 +1,10 @@
 #!/bin/bash
-set -e
+
 # Arch package install script
 # We consider you have setup correctly an archlinux install from here
+
+# disable fail on error, you can skip install prompts
+# set -e
 
 # - [x] rust
 # rustup install script
