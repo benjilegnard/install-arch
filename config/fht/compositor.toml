@@ -13,6 +13,7 @@
 autostart = [
   # "/usr/bin/swaybg -i ~/Pictures/wall/mountainous-landspace.png",
   # "nm-applet",
+  "eww daemon",
 ]
 
 

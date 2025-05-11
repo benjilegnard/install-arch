@@ -86,6 +86,34 @@ cp config/alacritty/alacritty.toml ~/.config/alacritty/
 # - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
 sudo pacman -S --noconfirm --needed wofi bat fastfetch lazygit
 
+# ---
+# eww
+# ---
+# eww dynamic lib dependencies
+sudo pacman -S --noconfirm --needed gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc
+# clone build
+if [ -d ./eww ];then
+    echo "eww already cloned, skipping..."
+else
+    git clone https://github.com/elkowar/eww
+fi
+
+cd eww
+
+if exists "eww"; then
+    echo "eww already installed, skipping..."
+else
+    cargo build --release --no-default-features --features=wayland
+    chmod +x target/release/eww
+    sudo cp target/release/eww /usr/local/bin/
+fi
+
+cd -
+
+mkdir -p ~/.config/eww
+cp -r ./config/eww/eww.yuck ~/.config/eww/
+
+
 # - [ ] mako : https://github.com/emersion/mako
 
 # - [ ] wayland utils (wl-clipboard) https://github.com/sentriz/cliphist
