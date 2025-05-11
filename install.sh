@@ -48,6 +48,19 @@ sudo pacman -S alacritty
 # - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
 sudo pacman -S wofi bat fastfetch lazygit
 
+# ---
+# eww
+# ---
+# eww dynamic lib dependencies
+sudo pacman -S gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc
+# clone build
+git clone https://github.com/elkowar/eww
+cd eww
+cargo build --release --no-default-features --features=wayland
+chmod +x target/release/eww
+sudo cp target/release/eww /usr/local/bin/
+cd -
+
 # - [ ] mako : https://github.com/emersion/mako
 
 # - [ ] wayland utils (wl-clipboard) https://github.com/sentriz/cliphist
