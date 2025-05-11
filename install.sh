@@ -11,8 +11,8 @@ sudo pacman -S git tmux zsh man zip unzip
 # --------------
 # fht-compositor
 # --------------
-# - [ ] installation fht-compositor : https://nferhat.github.io/fht-compositor/
-sudo pacman -S clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus mesa
+# - [x] installation fht-compositor : https://nferhat.github.io/fht-compositor/
+sudo pacman -S clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus
 # Clone and build.
 git clone https://github.com/nferhat/fht-compositor/ && cd fht-compositor
 
@@ -23,7 +23,6 @@ sudo cp target/opt/fht-compositor /usr/local/bin/
 # Wayland session desktop files
 install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
 
-
 # Recommended and deps
 sudo pacman -S uwsm gtklock grim slurp wl-clipboard libnewt libnotify
 
@@ -32,18 +31,20 @@ cd -
 # ---------
 # alacritty
 # ---------
-# - [ ] alacritty : https://github.com/alacritty/alacritty
-# // TODO setup config https://alacritty.org/config-alacritty.html
+# - [x] alacritty : https://github.com/alacritty/alacritty
 mkdir -p ~/.config/alacritty
 # download catppuccin mocha theme
 curl -LO --output-dir ~/.config/alacritty https://github.com/catppuccin/alacritty/raw/main/catppuccin-mocha.toml
 # replace bg color
 sed -i.bak '2s/1e1e2e/11111b/' ~/.config/alacritty/catppuccin-mocha.toml
-# install
-sudo pacman -S alacritty
 # copy config
 cp config/alacritty/alacritty.toml ~/.config/alacritty/
+# install
+sudo pacman -S alacritty
 
+# ----
+# wofi (and other tools, temporary, sort later)
+# ----
 # - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
 sudo pacman -S wofi bat fastfetch lazygit
 
@@ -55,19 +56,16 @@ sudo pacman -S wofi bat fastfetch lazygit
 
 # - [ ] neovim
 sudo pacman -S neovim
-# // TODO config files
-
-# - [ ] hack nerd font
-curl --output-dir ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Hack.zip
+# // TODO neovim config files
 
 # - [ ] zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cp ./config/zshrc ~/.zshrc
 
-# - [ ] starship
+# - [x] starship
 curl -sS https://starship.rs/install.sh | sh
 
-# fonts and emoji
+# hack nerd font and emojis
 sudo pacman -S noto-fonts-emoji ttf-hack-nerd
 # - [ ] tmux
 # - [ ] tmux plugins : https://github.com/tmux-plugins/tpm
@@ -87,12 +85,9 @@ sudo pacman -S xdg-desktop-portal
 sudo pacman -S swww
 # TODO automatic install of wallpapers + create script to randomize + transition
 
-# - [ ] astal https://aylur.github.io/astal/
-
-# - aylurs-gtk-shell-git (for developing astal, `)
-
+# -------
 # node.js
-#
+# -------
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
 
