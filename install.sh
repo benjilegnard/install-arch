@@ -16,8 +16,15 @@ sudo pacman -S git tmux zsh man zip unzip
 # --------------
 # - [x] installation fht-compositor : https://nferhat.github.io/fht-compositor/
 sudo pacman -S clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus
-# Clone and build.
-git clone https://github.com/nferhat/fht-compositor/ && cd fht-compositor
+# Clone
+if [ -d ./fht-compositor ]; then
+    echo "fht-compositor already cloned"
+else
+    git clone https://github.com/nferhat/fht-compositor/
+fi
+
+# Build
+cd fht-compositor
 
 cargo build --profile opt --features uwsm
 # You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
