@@ -70,10 +70,10 @@ sudo pacman -S wofi bat fastfetch lazygit
 sudo pacman -S neovim
 # // TODO neovim config files
 
-# - [ ] zsh
+# - [x] zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cp ./config/zshrc ~/.zshrc
-
+chsh -s $(which zsh)
 # - [x] starship
 curl -sS https://starship.rs/install.sh | sh
 
