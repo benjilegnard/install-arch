@@ -15,7 +15,11 @@ sudo pacman -S git tmux zsh man zip unzip
 # fht-compositor
 # --------------
 # - [x] installation fht-compositor : https://nferhat.github.io/fht-compositor/
+# build dependencies
 sudo pacman -S clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus
+# Recommended and deps
+sudo pacman -S gtklock grim slurp wl-clipboard libnewt libnotify
+
 # Clone
 if [ -d ./fht-compositor ]; then
     echo "fht-compositor already cloned"
@@ -31,10 +35,8 @@ cargo build --profile opt --features uwsm
 sudo cp target/opt/fht-compositor /usr/local/bin/
 
 # Wayland session desktop files
-install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
-
-# Recommended and deps
-sudo pacman -S uwsm gtklock grim slurp wl-clipboard libnewt libnotify
+sudo mkdir -p /usr/share/wayland-sessions
+sudo install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
 
 cd -
 
