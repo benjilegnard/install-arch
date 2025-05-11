@@ -4,7 +4,10 @@ set -e
 # We consider you have setup correctly an archlinux install from here
 
 # - [x] rust
+# rustup install script
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# source env so cargo is available in the next steps
+. "$HOME/.cargo/env"
 # - [x] git and cli tools needed
 sudo pacman -S git tmux zsh man zip unzip
 
