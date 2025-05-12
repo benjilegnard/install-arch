@@ -14,6 +14,14 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # - [x] git and cli tools needed
 sudo pacman -S --noconfirm --needed git tmux zsh man zip unzip
 
+# ------
+# greetd
+# ------
+# - [x] greetd : https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet
+sudo pacman -S --noconfirm --needed greetd greetd-gtkgreet greetd-tuigreet
+sudo cp ./config/greetd/config.toml /etc/greetd/
+sudo systemctl enable greetd.service
+
 # --------------
 # fht-compositor
 # --------------
@@ -90,7 +98,7 @@ fi
 
 cp ./config/zshrc ~/.zshrc
 
-chsh -s $(which zsh)
+# chsh -s $(which zsh)
 
 # - [x] starship
 if [ command -v starship ]; then
@@ -128,7 +136,6 @@ cd -
 
 # - [ ] Hack web font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip
 
-# - [ ] optional / greetd wlgreet : https://git.sr.ht/~kennylevinsen/wlgreet / https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet
 
 # - [ ] polkit : https://wiki.archlinux.org/title/Polkit#Authentication_agents
 sudo pacman -S --noconfirm --needed polkit-gnome

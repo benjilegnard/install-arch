@@ -31,8 +31,8 @@ cd install-arch
 
 ## TODOLIST
 
-- [ ] installer un greeter greetd + wlgreet ?
-- [ ] conditioner install.sh pour rejouabilité
+- [~] installer un greeter greetd + wlgreet ?
+- [x] conditioner install.sh pour rejouabilité
 - [x] ajouter --noconfirm / --needed aux commandes pacman
 - [ ] ajouter logs / couleurs au script d'install
 - [ ] automatiser + installer eww + daemon
