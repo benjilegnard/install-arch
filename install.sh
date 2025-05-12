@@ -15,12 +15,15 @@ exists()
 
 # - [x] rust
 # rustup install script
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-# source env so cargo is available in the next steps
-. "$HOME/.cargo/env"
-# - [x] git and cli tools needed
-sudo pacman -S --noconfirm --needed git tmux zsh man zip unzip
-
+if exists "rustup";then
+    echo "rustup already installed, skipping"
+else
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    # source env so cargo is available in the next steps
+    source "$HOME/.cargo/env"
+    # - [x] git and cli tools needed
+    sudo pacman -S --noconfirm --needed git tmux zsh man zip unzip
+fi
 # ------
 # greetd
 # ------
@@ -46,11 +49,11 @@ else
 fi
 
 # Build
-cd fht-compositor
 
 if [ -f /usr/local/bin/fht-compositor ]; then
     echo "fht-compositor already installed, skipping..."
 else
+    cd fht-compositor
     cargo build --profile opt --features uwsm
     # You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
     sudo cp target/opt/fht-compositor /usr/local/bin/
@@ -58,9 +61,9 @@ else
     # Wayland session desktop files
     sudo mkdir -p /usr/share/wayland-sessions
     sudo install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
+    cd -
 fi
 
-cd -
 
 # ---------
 # alacritty
@@ -98,17 +101,17 @@ else
     git clone https://github.com/elkowar/eww
 fi
 
-cd eww
 
 if exists "eww"; then
     echo "eww already installed, skipping..."
 else
+    cd ./eww
     cargo build --release --no-default-features --features=wayland
     chmod +x target/release/eww
     sudo cp target/release/eww /usr/local/bin/
+    cd -
 fi
 
-cd -
 
 mkdir -p ~/.config/eww
 cp -r ./config/eww/eww.yuck ~/.config/eww/
@@ -159,15 +162,15 @@ else
     git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme
 fi
 
-cd qogir-icon-theme
 
 if [ -d ~/.local/share/icons/Qogir ]; then
     echo "Qogir theme already installed, skipping..."
 else
+    cd qogir-icon-theme
     ./install.sh
+    cd -
 fi
 
-cd -
 
 # - [ ] Hack web font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip
 
