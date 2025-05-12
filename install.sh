@@ -103,6 +103,10 @@ sudo pacman -S swww
 # -------
 # node.js
 # -------
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+if command -v nvm; then
+    echo "nvm already installed, skipping..."
+else
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+fi
 
 
