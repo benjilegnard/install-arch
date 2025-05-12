@@ -12,16 +12,16 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # source env so cargo is available in the next steps
 . "$HOME/.cargo/env"
 # - [x] git and cli tools needed
-sudo pacman -S git tmux zsh man zip unzip
+sudo pacman -S --noconfirm --needed git tmux zsh man zip unzip
 
 # --------------
 # fht-compositor
 # --------------
 # - [x] installation fht-compositor : https://nferhat.github.io/fht-compositor/
 # build dependencies
-sudo pacman -S clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus
+sudo pacman -S --noconfirm --needed clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus
 # Recommended and deps
-sudo pacman -S gtklock grim slurp wl-clipboard libnewt libnotify
+sudo pacman -S --noconfirm --needed gtklock grim slurp wl-clipboard libnewt libnotify
 
 # Clone
 if [ -d ./fht-compositor ]; then
@@ -55,13 +55,13 @@ sed -i.bak '2s/1e1e2e/11111b/' ~/.config/alacritty/catppuccin-mocha.toml
 # copy config
 cp config/alacritty/alacritty.toml ~/.config/alacritty/
 # install
-sudo pacman -S alacritty
+sudo pacman -S --noconfirm --needed alacritty
 
 # ----
 # wofi (and other tools, temporary, sort later)
 # ----
 # - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
-sudo pacman -S wofi bat fastfetch lazygit
+sudo pacman -S --noconfirm --needed wofi bat fastfetch lazygit
 
 # - [ ] mako : https://github.com/emersion/mako
 
@@ -70,7 +70,7 @@ sudo pacman -S wofi bat fastfetch lazygit
 # - [ ] swayidle / swaylock // TODO replace gtklock
 
 # - [ ] neovim
-sudo pacman -S neovim
+sudo pacman -S --noconfirm --needed neovim
 # // TODO neovim config files
 
 # - [x] zsh and oh-my-zsh
@@ -81,7 +81,7 @@ chsh -s $(which zsh)
 curl -sS https://starship.rs/install.sh | sh
 
 # hack nerd font and emojis
-sudo pacman -S noto-fonts-emoji ttf-hack-nerd
+sudo pacman -S --noconfirm --needed noto-fonts-emoji ttf-hack-nerd
 # - [ ] tmux
 # - [ ] tmux plugins : https://github.com/tmux-plugins/tpm
 
@@ -105,12 +105,12 @@ cd -
 # - [ ] optional / greetd wlgreet : https://git.sr.ht/~kennylevinsen/wlgreet / https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet
 
 # - [ ] polkit : https://wiki.archlinux.org/title/Polkit#Authentication_agents
-sudo pacman -S polkit-gnome
+sudo pacman -S --noconfirm --needed polkit-gnome
 # - [ ] desktop portal
-sudo pacman -S xdg-desktop-portal
+sudo pacman -S --noconfirm --needed xdg-desktop-portal
 
 # - [ ] swww (wallpaper manager) https://github.com/LGFae/swww
-sudo pacman -S swww
+sudo pacman -S --noconfirm --needed swww
 # TODO automatic install of wallpapers + create script to randomize + transition
 
 # -------
