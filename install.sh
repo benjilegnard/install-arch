@@ -33,13 +33,17 @@ fi
 # Build
 cd fht-compositor
 
-cargo build --profile opt --features uwsm
-# You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
-sudo cp target/opt/fht-compositor /usr/local/bin/
+if [ -f /usr/local/bin/fht-compositor ]; then
+    echo "fht-compositor already installed, skipping..."
+else
+    cargo build --profile opt --features uwsm
+    # You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
+    sudo cp target/opt/fht-compositor /usr/local/bin/
 
-# Wayland session desktop files
-sudo mkdir -p /usr/share/wayland-sessions
-sudo install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
+    # Wayland session desktop files
+    sudo mkdir -p /usr/share/wayland-sessions
+    sudo install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
+fi
 
 cd -
 
@@ -47,15 +51,19 @@ cd -
 # alacritty
 # ---------
 # - [x] alacritty : https://github.com/alacritty/alacritty
-mkdir -p ~/.config/alacritty
-# download catppuccin mocha theme
-curl -LO --output-dir ~/.config/alacritty https://github.com/catppuccin/alacritty/raw/main/catppuccin-mocha.toml
-# replace bg color
-sed -i.bak '2s/1e1e2e/11111b/' ~/.config/alacritty/catppuccin-mocha.toml
+if [ command -v alacritty ]; then
+    echo "Alacritty already installed, skipping..."
+else
+    mkdir -p ~/.config/alacritty
+    # download catppuccin mocha theme
+    curl -LO --output-dir ~/.config/alacritty https://github.com/catppuccin/alacritty/raw/main/catppuccin-mocha.toml
+    # replace bg color
+    sed -i.bak '2s/1e1e2e/11111b/' ~/.config/alacritty/catppuccin-mocha.toml
+    # install
+    sudo pacman -S --noconfirm --needed alacritty
+fi
 # copy config
 cp config/alacritty/alacritty.toml ~/.config/alacritty/
-# install
-sudo pacman -S --noconfirm --needed alacritty
 
 # ----
 # wofi (and other tools, temporary, sort later)
@@ -74,11 +82,22 @@ sudo pacman -S --noconfirm --needed neovim
 # // TODO neovim config files
 
 # - [x] zsh and oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if [ -d ~/.oh-my-zsh ]; then
+    echo "OMZ already installed, skipping"
+else
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
 cp ./config/zshrc ~/.zshrc
+
 chsh -s $(which zsh)
+
 # - [x] starship
-curl -sS https://starship.rs/install.sh | sh
+if [ command -v starship ]; then
+    echo "Starhip already installed, skipping..."
+else
+    curl -sS https://starship.rs/install.sh | sh
+fi
 
 # hack nerd font and emojis
 sudo pacman -S --noconfirm --needed noto-fonts-emoji ttf-hack-nerd
@@ -91,15 +110,22 @@ sudo pacman -S --noconfirm --needed noto-fonts-emoji ttf-hack-nerd
 # qogir
 # -----
 # icon themes
-if [ -d Qogir-icon-theme ]; then
+if [ -d qogir-icon-theme ]; then
     echo "Qogir icons already cloned, skipping..."
 else
     git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme
 fi
 
 cd qogir-icon-theme
-./install.sh
+
+if [ -d ~/.local/share/icons/Qogir ]; then
+    echo "Qogir theme already installed, skipping..."
+else
+    ./install.sh
+fi
+
 cd -
+
 # - [ ] Hack web font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip
 
 # - [ ] optional / greetd wlgreet : https://git.sr.ht/~kennylevinsen/wlgreet / https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet
