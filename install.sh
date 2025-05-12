@@ -6,6 +6,13 @@
 # disable fail on error, you can skip install prompts
 # set -e
 
+# common bash functions
+
+exists()
+{
+  command -v "$1" >/dev/null 2>&1
+}
+
 # - [x] rust
 # rustup install script
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -59,7 +66,7 @@ cd -
 # alacritty
 # ---------
 # - [x] alacritty : https://github.com/alacritty/alacritty
-if [ command -v alacritty ]; then
+if exists "alacritty"; then
     echo "Alacritty already installed, skipping..."
 else
     mkdir -p ~/.config/alacritty
@@ -101,7 +108,7 @@ cp ./config/zshrc ~/.zshrc
 # chsh -s $(which zsh)
 
 # - [x] starship
-if [ command -v starship ]; then
+if exists "starship"; then
     echo "Starhip already installed, skipping..."
 else
     curl -sS https://starship.rs/install.sh | sh
@@ -149,7 +156,7 @@ sudo pacman -S --noconfirm --needed swww
 # -------
 # node.js
 # -------
-if command -v nvm; then
+if exists "nvm"; then
     echo "nvm already installed, skipping..."
 else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
