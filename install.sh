@@ -34,6 +34,19 @@ else
     packageInstall "git zsh man zip unzip xdg-utils"
 fi
 
+# ----------
+# catppuccin grub & tty
+# ----------
+git clone https://github.com/catppuccin/grub.git temp/grub
+cd temp/grub
+sudo cp -r src/* /usr/share/grub/themes/
+sudo sed -i '' '/.*GRUB_THEME.*/GRUB_THEME=\"\/usr\/share\/grub\/themes\/catppuccin-mocha-grub-theme\/theme.txt\"/' /etc/default/grub
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+cd -
+# TODO add following to GRUB_CMDLINE_LINUX
+# vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166 vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173 vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200
+# sudo sed -i '/.*GRUB_CMD
+
 # ------
 # greetd
 # ------
