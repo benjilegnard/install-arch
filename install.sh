@@ -73,7 +73,7 @@ sudo pacman -S wofi bat fastfetch lazygit
 sudo pacman -S neovim
 # // TODO neovim config files
 
-# - [x] zsh
+# - [x] zsh and oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cp ./config/zshrc ~/.zshrc
 chsh -s $(which zsh)
@@ -87,6 +87,19 @@ sudo pacman -S noto-fonts-emoji ttf-hack-nerd
 
 # - [ ] yazi : https://yazi-rs.github.io/
 
+# -----
+# qogir
+# -----
+# icon themes
+if [ -d Qogir-icon-theme ]; then
+    echo "Qogir icons already cloned, skipping..."
+else
+    git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme
+fi
+
+cd qogir-icon-theme
+./install.sh
+cd -
 # - [ ] Hack web font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip
 
 # - [ ] optional / greetd wlgreet : https://git.sr.ht/~kennylevinsen/wlgreet / https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet

@@ -32,8 +32,8 @@ focus-new-windows = true # Give newly inserted windows keyboard focus
 layouts = ["tile", "floating"]
 nmaster = 1
 mwfact = 0.5
-inner-gaps = 5 # gaps between tiles
-outer-gaps = 20 # gaps around the screen
+inner-gaps = 10 # gaps between tiles
+outer-gaps = 10 # gaps around the screen
 
 
 # ---------------------------------------------------------
@@ -52,7 +52,7 @@ decoration-mode = "force-server-side"
 # Border around windows! (You'd probably want to leave this on)
 [decorations.border]
 thickness = 2
-radius = 10
+radius = 5
 # You can either use a gradient color or a solid color.
 # Refer to the docs for more details on how to use them.
 focused-color = "#6791c9"
@@ -69,6 +69,7 @@ normal-color = "#222230"
 # Keyboard XKB settings, applied globally.
 # See: man xkeyboard-config(7)
 layout = "us" # layout = "fr"
+variant = "intl"
 rules = ""
 repeat-rate = 50
 repeat-delay = 250
@@ -103,7 +104,9 @@ repeat-delay = 250
 # Again refer to the documention for more details!
 # disable = true
 
-
+[cursor]
+name = "Qogir-Light"
+size = 32
 # ---------------------------------------------------------
 
 
