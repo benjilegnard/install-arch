@@ -70,7 +70,7 @@ normal-color = "#222230"
 # Keyboard XKB settings, applied globally.
 # See: man xkeyboard-config(7)
 layout = "us" # layout = "fr"
-variant = "intl"
+variant = "alt-intl"
 rules = ""
 repeat-rate = 50
 repeat-delay = 250
@@ -129,7 +129,10 @@ Super-Ctrl-r = "reload-config"
 # NOTE: run-command argument is a command line, executed in the same fashion as the autostart section
 # Example key actions that need an argument passed in
 Super-Return = { action = "run-command", arg = "alacritty" }
-Super-p = { action = "run-command", arg = "wofi --show drun" }
+Super-d = { action = "run-command", arg = "rofi -modi drun,window -show drun" }
+Super-w = { action = "run-command", arg = "rofi -modi drun,window -show window" }
+Super-z = { action = "run-command", arg = "rofi -modi emoji -show emoji" }
+
 Super-Shift-s = { action = "run-command", arg = """grim -g "`slurp -o`" - | wl-copy --type image/png""" }
 Super-Alt-l = { action = "run-command", arg = "gtklock" }
 

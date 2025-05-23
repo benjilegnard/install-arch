@@ -84,10 +84,21 @@ fi
 cp config/alacritty/alacritty.toml ~/.config/alacritty/
 
 # ----
-# wofi (and other tools, temporary, sort later)
+# rofi
 # ----
-# - [ ] wofi : https://hg.sr.ht/~scoopta/wofi
-sudo pacman -S --noconfirm --needed wofi bat fastfetch lazygit
+# - [x] Rofi : https://davatorium.github.io/rofi/ 
+if exists "rofi"; then
+    echo "Rofi already installed, skipping..."
+else
+    sudo pacman -S --noconfirm --needed rofi-wayland rofi-emoji wtype wl-clipboard
+    mkdir -p ~/.local/share/rofi/themes/
+    cp ./config/rofi/catppuccin-mocha.rasi ~/.local/share/rofi/themes/
+    mkdir -p ~/.config/rofi/
+    cp ./config/rofi/config.rasi ~/.config/rofi/
+fi
+
+# misc tools
+sudo pacman -S --noconfirm --needed bat fastfetch lazygit
 
 # ---
 # eww
