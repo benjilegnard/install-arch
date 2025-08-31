@@ -1,6 +1,11 @@
 # BenjiLeGnard's Arch setup
 
-This is just an install script for Arch setup
+This is just an installation script for a minimal Arch setup.
+
+Made live on [stream](https://twitch.tv/benjilegnard) in order to test some linux wayland compositor and rust-based tools
+
+> [!WARNING]
+> I do not maintain this anymore, most of the script has been integrated in my [dotfiles](https://github.com/benjilegnard/dotfiles/)
 
 ## Features
 
@@ -22,12 +27,16 @@ All themed with [catppuccin/mocha](https://catppuccin.com/)
 
 ## Installation
 
+Install a base arch system, preferably server or minimal.
+
 ```bash
 sudo pacman -S git
 git clone https://github.com/benjilegnard/install-arch.git
 cd install-arch
 ./install.sh
 ```
+
+Follow the prompts.
 
 ## TODOLIST
 

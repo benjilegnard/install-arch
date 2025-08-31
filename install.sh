@@ -3,32 +3,38 @@
 # Arch package install script
 # We consider you have setup correctly an archlinux install from here
 
-# disable fail on error, you can skip install prompts
-# set -e
+# comment this line to disable fail on error
+set -e
 
-# common bash functions
+. ./colors.sh
 
-exists()
-{
+printInfo "Installation started..."
+
+# Checks if a command exists
+commandExists() {
   command -v "$1" >/dev/null 2>&1
+}
+
+packageInstall () {
+  sudo pacman -S --noconfirm --needed $1
 }
 
 # - [x] rust
 # rustup install script
-if exists "rustup";then
-    echo "rustup already installed, skipping"
+if commandExists "rustup";then
+    logInfo "Rust 🦀 is already installed, skipping..."
 else
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     # source env so cargo is available in the next steps
     source "$HOME/.cargo/env"
     # - [x] git and cli tools needed
-    sudo pacman -S --noconfirm --needed git tmux zsh man zip unzip
+    packageInstall "git zsh man zip unzip xdg-utils"
 fi
 # ------
 # greetd
 # ------
 # - [x] greetd : https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet
-sudo pacman -S --noconfirm --needed greetd greetd-gtkgreet greetd-tuigreet
+packageInstall "greetd greetd-gtkgreet greetd-tuigreet"
 sudo cp ./config/greetd/config.toml /etc/greetd/
 sudo systemctl enable greetd.service
 
@@ -37,24 +43,26 @@ sudo systemctl enable greetd.service
 # --------------
 # - [x] installation fht-compositor : https://nferhat.github.io/fht-compositor/
 # build dependencies
-sudo pacman -S --noconfirm --needed clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus
+packageInstall "clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus"
 # Recommended and deps
-sudo pacman -S --noconfirm --needed gtklock grim slurp wl-clipboard libnewt libnotify
+packageInstall "gtklock grim slurp wl-clipboard libnewt libnotify"
 
 # Clone
 if [ -d ./fht-compositor ]; then
-    echo "fht-compositor already cloned"
+    logInfo "fht-compositor already cloned, skipping..."
 else
     git clone https://github.com/nferhat/fht-compositor/
+    logSuccess "Cloned fht-compositor to ${CWD}/fht-compositor/"
 fi
 
 # Build
 
 if [ -f /usr/local/bin/fht-compositor ]; then
-    echo "fht-compositor already installed, skipping..."
+    logInfo "fht-compositor already installed, skipping..."
 else
+    logInfo "Compiling fht-compositor"
     cd fht-compositor
-    cargo build --profile opt --features uwsm
+    cargo build --profile opt --features systemd
     # You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
     sudo cp target/opt/fht-compositor /usr/local/bin/
 
@@ -62,6 +70,7 @@ else
     sudo mkdir -p /usr/share/wayland-sessions
     sudo install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
     cd -
+    logSuccess "fht-compositor Successfully installed !"
 fi
 
 
@@ -69,8 +78,8 @@ fi
 # alacritty
 # ---------
 # - [x] alacritty : https://github.com/alacritty/alacritty
-if exists "alacritty"; then
-    echo "Alacritty already installed, skipping..."
+if commandExists "alacritty"; then
+    logInfo "Alacritty already installed, skipping..."
 else
     mkdir -p ~/.config/alacritty
     # download catppuccin mocha theme
@@ -78,7 +87,8 @@ else
     # replace bg color
     sed -i.bak '2s/1e1e2e/11111b/' ~/.config/alacritty/catppuccin-mocha.toml
     # install
-    sudo pacman -S --noconfirm --needed alacritty
+    packageInstall "alacritty"
+    logSuccess "Alacritty terminal installed"
 fi
 # copy config
 cp config/alacritty/alacritty.toml ~/.config/alacritty/
@@ -87,34 +97,61 @@ cp config/alacritty/alacritty.toml ~/.config/alacritty/
 # rofi
 # ----
 # - [x] Rofi : https://davatorium.github.io/rofi/ 
-if exists "rofi"; then
-    echo "Rofi already installed, skipping..."
+if commandExists "rofi"; then
+    logInfo "Rofi already installed, skipping..."
 else
-    sudo pacman -S --noconfirm --needed rofi-wayland rofi-emoji wtype wl-clipboard
+    packageInstall "rofi-wayland rofi-emoji wtype wl-clipboard"
     mkdir -p ~/.local/share/rofi/themes/
     cp ./config/rofi/catppuccin-mocha.rasi ~/.local/share/rofi/themes/
     mkdir -p ~/.config/rofi/
     cp ./config/rofi/config.rasi ~/.config/rofi/
+    logSuccess "Rofi installed"
 fi
 
 # misc tools
-sudo pacman -S --noconfirm --needed bat fastfetch lazygit
+packageInstall "bat fastfetch lazygit"
+
+# ----
+# tmux
+# ----
+if commandExists "tmux"; then
+    logInfo "Tmux already installed, skipping"
+else
+    packageInstall "tmux"
+    logSuccess "Tmux installed"
+fi
+
+if [ -f ~/.config/tmux/tmux.conf ];then
+    logInfo "tmux already configured, skipping..."
+else
+    mkdir -p ~/.config/tmux
+    cp ./config/tmux/tmux.conf ~/.config/tmux/
+    logSuccess "created tmux configuration file"
+fi
+# tmux plugin manager
+if [ -d ~/.tmux/plugins/tpm ];then
+    logInfo "tmux plugins already installed, skipping"
+else
+    mkdir -p ~/.tmux/plugins/
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
 
 # ---
 # eww
 # ---
 # eww dynamic lib dependencies
-sudo pacman -S --noconfirm --needed gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc
+packageInstall "gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc"
 # clone build
 if [ -d ./eww ];then
-    echo "eww already cloned, skipping..."
+    logInfo "eww already cloned, skipping..."
 else
     git clone https://github.com/elkowar/eww
+    logSuccess "eww cloned successfully"
 fi
 
 
-if exists "eww"; then
-    echo "eww already installed, skipping..."
+if commandExists "eww"; then
+    logInfo "eww already installed, skipping..."
 else
     cd ./eww
     cargo build --release --no-default-features --features=wayland
@@ -123,24 +160,33 @@ else
     cd -
 fi
 
-
 mkdir -p ~/.config/eww
-cp -r ./config/eww/eww.yuck ~/.config/eww/
 
+cp -r ./config/eww/eww.yuck ~/.config/eww/
 
 # - [ ] mako : https://github.com/emersion/mako
 
 # - [ ] wayland utils (wl-clipboard) https://github.com/sentriz/cliphist
 
-# - [ ] swayidle / swaylock // TODO replace gtklock
+# - [ ] swayidle / swaylock // TODO replace gtklock ?
 
-# - [ ] neovim
-sudo pacman -S --noconfirm --needed neovim
-# // TODO neovim config files
+# - [x] helix
+if commandExists "helix"; then
+    logInfo "Helix editor already installed, skipping..."
+else
+    packageInstall "helix"
+fi
+
+if [ -f ~/.config/helix/config.toml ];then
+    logInfo "Helix already configured, skipping configuration..."
+else
+    mkdir -p ~/.config/helix
+    cp ./config/helix/config.toml ~/.config/helix/
+fi
 
 # - [x] zsh and oh-my-zsh
 if [ -d ~/.oh-my-zsh ]; then
-    echo "OMZ already installed, skipping"
+    logInfo "OMZ already installed, skipping"
 else
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
@@ -150,14 +196,14 @@ cp ./config/zshrc ~/.zshrc
 # chsh -s $(which zsh)
 
 # - [x] starship
-if exists "starship"; then
-    echo "Starhip already installed, skipping..."
+if commandExists "starship"; then
+    logInfo "Starhip already installed, skipping..."
 else
     curl -sS https://starship.rs/install.sh | sh
 fi
 
 # hack nerd font and emojis
-sudo pacman -S --noconfirm --needed noto-fonts-emoji ttf-hack-nerd
+packageInstall "noto-fonts-emoji ttf-hack-nerd"
 # - [ ] tmux
 # - [ ] tmux plugins : https://github.com/tmux-plugins/tpm
 
@@ -168,17 +214,22 @@ sudo pacman -S --noconfirm --needed noto-fonts-emoji ttf-hack-nerd
 # -----
 # icon themes
 if [ -d qogir-icon-theme ]; then
-    echo "Qogir icons already cloned, skipping..."
+    logInfo "Qogir icons already cloned, skipping..."
 else
-    git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme
+    git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme || { logError "git clone failed"; exit 1; }
+    logSuccess "Qogir icon theme cloned sucessfully";
 fi
 
-
 if [ -d ~/.local/share/icons/Qogir ]; then
-    echo "Qogir theme already installed, skipping..."
+    logInfo "Qogir theme already installed, skipping..."
 else
     cd qogir-icon-theme
     ./install.sh
+    if [[ $? != 0 ]]; then
+        logError "Qogir installation failed"
+        cd -
+        exit 1
+    fi
     cd -
 fi
 
@@ -187,21 +238,25 @@ fi
 
 
 # - [ ] polkit : https://wiki.archlinux.org/title/Polkit#Authentication_agents
-sudo pacman -S --noconfirm --needed polkit-gnome
+packageInstall "polkit-gnome"
 # - [ ] desktop portal
-sudo pacman -S --noconfirm --needed xdg-desktop-portal
+packageInstall "xdg-desktop-portal xdg-desktop-portal-wlr"
 
 # - [ ] swww (wallpaper manager) https://github.com/LGFae/swww
-sudo pacman -S --noconfirm --needed swww
+packageInstall "swww"
 # TODO automatic install of wallpapers + create script to randomize + transition
 
 # -------
 # node.js
 # -------
-if exists "nvm"; then
-    echo "nvm already installed, skipping..."
+if [ -d ~/.nvm ]; then
+    logInfo "nvm already installed, skipping..."
 else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 fi
 
 
+#
+# Final checks
+#
+printSuccess "Installation successful !"
