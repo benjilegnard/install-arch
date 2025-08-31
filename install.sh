@@ -247,6 +247,7 @@ fi
 
 # - [ ] Hack web font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip
 
+packageInstall "network-manager-applet pavucontrol"
 
 # - [ ] polkit : https://wiki.archlinux.org/title/Polkit#Authentication_agents
 packageInstall "polkit-gnome"
