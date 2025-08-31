@@ -101,8 +101,19 @@ if commandExists "rofi"; then
     logInfo "Rofi already installed, skipping..."
 else
     packageInstall "rofi-wayland rofi-emoji wtype wl-clipboard"
+fi
+
+if [ -d ~/.local/share/rofi/themes ];then
+    logInfo "rofi theme folder exists, skipping..."
+else
     mkdir -p ~/.local/share/rofi/themes/
     cp ./config/rofi/catppuccin-mocha.rasi ~/.local/share/rofi/themes/
+    logSuccess "created rofi theme"
+fi
+
+if [ -d ~/.config/rofi ]; then
+    logInfo "rofi config dir exists, skipping..."
+else
     mkdir -p ~/.config/rofi/
     cp ./config/rofi/config.rasi ~/.config/rofi/
     logSuccess "Rofi installed"
