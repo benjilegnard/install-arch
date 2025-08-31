@@ -215,8 +215,6 @@ fi
 
 # hack nerd font and emojis
 packageInstall "noto-fonts-emoji ttf-hack-nerd"
-# - [ ] tmux
-# - [ ] tmux plugins : https://github.com/tmux-plugins/tpm
 
 # - [ ] yazi : https://yazi-rs.github.io/
 
@@ -244,8 +242,21 @@ else
     cd -
 fi
 
+# ----
+# Sway & waybar
+# ----
+if commandExists "sway"; then
+    logInfo "Sway already installed, skipping..."
+else
+    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib"
+    logSuccess "sway installed"
+fi
 
-# - [ ] Hack web font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip
+if commandExists "waybar"; then
+    logInfo "Waybar already installed, skipping..."
+else
+    packageInstall "waybar rhythmbox"
+fi
 
 packageInstall "network-manager-applet pavucontrol"
 
