@@ -299,6 +299,61 @@ if [ -f /boot/grub/grub.cfg ]; then
     fi
 fi
 
+
+# GTK Theme
+logInfo "Setting up Catppuccin GTK theme..."
+GTK_THEME="catppuccin-mocha-teal-standard+default"
+
+# Create themes directory
+mkdir -p ~/.themes
+chmod 755 ~/.themes
+
+# Download and install GTK theme
+if [ ! -d ~/.themes/${GTK_THEME} ]; then
+    curl -L https://github.com/catppuccin/gtk/releases/download/v1.0.3/${GTK_THEME}.zip -o /tmp/${GTK_THEME}.
+zip
+    unzip -q /tmp/${GTK_THEME}.zip -d ~/.themes/
+    chmod -R 755 ~/.themes/${GTK_THEME}
+fi
+
+# Create GTK config directories
+mkdir -p ~/.config/gtk-4.0 ~/.config/gtk-3.0
+chmod 755 ~/.config/gtk-4.0 ~/.config/gtk-3.0
+
+# Copy settings.ini if it exists in the config directory
+if [ -f ./config/gtk/settings.ini ]; then
+    cp ./config/gtk/settings.ini ~/.config/gtk-3.0/
+    cp ./config/gtk/settings.ini ~/.config/gtk-4.0/
+    chmod 755 ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/settings.ini
+else
+    # Create basic settings file if it doesn't exist
+    echo "[Settings]" > ~/.config/gtk-3.0/settings.ini
+    echo "gtk-theme-name=${GTK_THEME}" >> ~/.config/gtk-3.0/settings.ini
+    cp ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/
+fi
+
+# Create symbolic links for GTK-4.0
+ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/assets ~/.config/gtk-4.0/assets
+ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/gtk.css ~/.config/gtk-4.0/gtk.css
+ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/gtk-dark.css ~/.config/gtk-4.0/gtk-dark.css
+
+# Enable theme in profile and rc files
+for file in ~/.profile ~/.zshrc ~/.bashrc; do
+    if ! grep -q "export GTK_THEME=\"${GTK_THEME}\"" "$file" 2>/dev/null; then
+        echo "export GTK_THEME=\"${GTK_THEME}\"" >> "$file"
+    fi
+done
+
+# Make sure theme is in GTK settings
+if ! grep -q "gtk-theme-name=${GTK_THEME}" ~/.config/gtk-3.0/settings.ini; then
+    echo "gtk-theme-name=${GTK_THEME}" >> ~/.config/gtk-3.0/settings.ini
+fi
+
+logSuccess "GTK theme installed and configured"
+
+# Qogir icon theme is already in the main install script, no need to duplicate
+logSuccess "Catppuccin themes installation completed!"
+
 # ----
 # Sway & waybar
 # ----
