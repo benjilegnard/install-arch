@@ -19,6 +19,9 @@ packageInstall () {
   sudo pacman -S --noconfirm --needed $1
 }
 
+# create temp directory where we will clone repos
+mkdir -p ./temp
+
 # - [x] rust
 # rustup install script
 if commandExists "rustup";then
@@ -30,13 +33,32 @@ else
     # - [x] git and cli tools needed
     packageInstall "git zsh man zip unzip xdg-utils"
 fi
+
 # ------
 # greetd
 # ------
 # - [x] greetd : https://man.sr.ht/~kennylevinsen/greetd/#setting-up-greetd-with-wlgreet
-packageInstall "greetd greetd-gtkgreet greetd-tuigreet"
+packageInstall "greetd greetd-gtkgreet"
 sudo cp ./config/greetd/config.toml /etc/greetd/
+sudo cp ./config/greetd/sway-config /etc/greetd/
+sudo cp ./config/greetd/wlgreet.toml /etc/greetd/
 sudo systemctl enable greetd.service
+
+# - [x] wlgreet : https://git.sr.ht/~kennylevinsen/wlgreet
+if [ -d ./temp/wlgreet ]; then
+    logInfo "wlgreet repository already cloned, skipping..."
+else
+    git clone https://git.sr.ht/~kennylevinsen/wlgreet temp/wlgreet
+fi
+
+if [ -f /usr/local/bin/wlgreet ]; then
+    logInfo "wlgreet already installed, skipping..."
+else
+    cd ./temp/wlgreet
+    cargo build --release
+    sudo cp target/release/wlgreet /usr/local/bin/
+    cd -
+fi
 
 # --------------
 # fht-compositor
