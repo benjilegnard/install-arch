@@ -241,7 +241,7 @@ packageInstall "noto-fonts-emoji ttf-hack-nerd"
 # - [ ] yazi : https://yazi-rs.github.io/
 
 # -----
-# qogir
+# qogir icons
 # -----
 # icon themes
 if [ -d qogir-icon-theme ]; then
@@ -262,6 +262,41 @@ else
         exit 1
     fi
     cd -
+fi
+
+# ---------------
+# Catppuccin Theme
+# ---------------
+printInfo "Installing Catppuccin themes..."
+
+# Create temp directory for downloads
+mkdir -p ./temp/catppuccin
+
+# GRUB Theme
+if [ -f /boot/grub/grub.cfg ]; then
+    logInfo "GRUB is installed, setting up Catppuccin theme..."
+
+    # Clone catppuccin/grub
+    if [ ! -d ./temp/catppuccin/grub ]; then
+        git clone --depth 1 https://github.com/catppuccin/grub.git ./temp/catppuccin/grub
+    fi
+
+    # Copy theme files
+    sudo mkdir -p /usr/share/grub/themes
+    sudo cp -r ./temp/catppuccin/grub/src/catppuccin-mocha-grub-theme /usr/share/grub/themes/
+    sudo chmod -R 755 /usr/share/grub/themes/catppuccin-mocha-grub-theme
+
+    # Check if theme is already configured
+    if ! grep -q "^GRUB_THEME=" /etc/default/grub; then
+        # Add theme to grub config
+        sudo bash -c 'echo "GRUB_THEME=\"/usr/share/grub/themes/catppuccin-mocha-grub-theme/theme.txt\"" >>
+/etc/default/grub'
+        # Update grub
+        sudo grub-mkconfig -o /boot/grub/grub.cfg
+        logSuccess "GRUB theme installed and configured"
+    else
+        logInfo "GRUB theme already configured, skipping..."
+    fi
 fi
 
 # ----
