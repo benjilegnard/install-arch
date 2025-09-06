@@ -248,7 +248,7 @@ fi
 if commandExists "sway"; then
     logInfo "Sway already installed, skipping..."
 else
-    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib"
+    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib zenity"
     logSuccess "sway installed"
 fi
 
