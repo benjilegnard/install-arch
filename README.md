@@ -40,13 +40,31 @@ Follow the prompts.
 
 ## TODOLIST
 
-- [~] installer un greeter greetd + wlgreet ?
-- [x] conditioner install.sh pour rejouabilité
+- [x] installer un greeter greetd + wlgreet
+- [x] conditionner install.sh pour rejouabilité
 - [x] ajouter --noconfirm / --needed aux commandes pacman
-- [ ] ajouter logs / couleurs au script d'install
-- [ ] automatiser + installer eww + daemon
-- [ ] thème GTK + catppuccin (grub+tty) purple
+- [x] ajouter logs / couleurs au script d'install
+- [x] automatiser + installer eww + daemon
+- [ ] thème catppuccin 
+  - [x] grub
+  - [ ] tty
+  - [ ] gtk3/gtk4
+  - [ ] ...
+- [ ] plymouth ?
+  - [ ] choose a theme lol
 - [ ] ... + profit ?
 - [ ] faire nos propres widgets eww
+  - [ ] waybar
+    - [ ] workspaces
+    - [ ] date + calendar
+    - [ ] music player
+    - [ ] stats system
+    - [ ] volume
+    - [ ] brightness
+    - [ ] battery
+    - [ ] systray
+  - [ ] powermenu (logout/poweroff/reboot)
+  - [ ] launcher ? (rofi/fzf)
+  - [ ] notifs ??
+  - [ ] dashboard...
 - [ ] réintégration dans dépot dotfiles + copie des reps nvim tmux
-
