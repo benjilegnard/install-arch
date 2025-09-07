@@ -280,7 +280,16 @@ else
     packageInstall "waybar rhythmbox"
 fi
 
-packageInstall "network-manager-applet pavucontrol"
+# network / wiki on macOS mini mid-2014, see:
+# - https://wiki.archlinux.org/title/Broadcom_wireless
+# - https://bbs.archlinux.org/viewtopic.php?pid=1862759#p1862759
+# packageInstall "broadcom-wl-dkms"
+# also needed to blacklist some module in a /etc/modules-load.d/broadcom-wl-dkms.conf file
+# echo "blacklist b43" > /etc/modprobe.d/wifi.conf
+
+# - [ ] network and other utilities displayed in tray bar or waybar
+packageInstall "networkmanager network-manager-applet pavucontrol"
+sudo systemctl enable NetworkManager
 
 # - [ ] polkit : https://wiki.archlinux.org/title/Polkit#Authentication_agents
 packageInstall "polkit-gnome"
