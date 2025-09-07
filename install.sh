@@ -301,48 +301,45 @@ fi
 
 
 # Waybar Theme
-logInfo "Setting up Catppuccin Waybar theme..."
 if [ ! -d ./temp/catppuccin/waybar ]; then
-    git clone --depth 1 --branch ee8ed32 https:github.com/catppuccin/waybar.git ./temp/catppuccin/waybar
+    logInfo "Cloning Catppuccin Waybar theme..."
+    git clone --depth 1 https://github.com/catppuccin/waybar.git ./temp/catppuccin/waybar
 fi
 
-# Create waybar config directory
-mkdir -p ~/.config/waybar
-chmod 755 ~/.config/waybar
+if [ ! -d ~/.config/waybar ]; then
+    # Create waybar config directory
+    mkdir -p ~/.config/waybar
+    chmod 755 ~/.config/waybar
 
-# Copy mocha theme
-cp ./temp/catppuccin/waybar/themes/mocha.css ~/.config/waybar/
-chmod 755 ~/.config/waybar/mocha.css
-logSuccess "Waybar theme installed"
+    # Copy mocha theme
+    cp ./temp/catppuccin/waybar/themes/mocha.css ~/.config/waybar/
+    chmod 755 ~/.config/waybar/mocha.css
+    logSuccess "Waybar theme installed"
 
-# Tmux Theme
-logInfo "Setting up Catppuccin Tmux theme..."
-mkdir -p ~/.config/tmux/plugins/catppuccin
-chmod -R 755 ~/.config/tmux/plugins
-
-# Clone catppuccin/tmux
-if [ ! -d ~/.config/tmux/plugins/catppuccin ]; then
-    git clone --depth 1 --branch v2.1.2 https:github.com/catppuccin/tmux.git ~/.
-config/tmux/plugins/catppuccin
-    logSuccess "Tmux theme installed"
+    # Tmux Theme
+    logInfo "Setting up Catppuccin Tmux theme..."
+    mkdir -p ~/.config/tmux/plugins/catppuccin
+    chmod -R 755 ~/.config/tmux/plugins
 else
-    logInfo "Tmux theme already installed, skipping..."
+    logInfo "Waybar already configured, skipping"
 fi
 
 # Btop Theme
-logInfo "Setting up Catppuccin Btop theme..."
 if [ ! -d ./temp/catppuccin/btop ]; then
-    git clone --depth 1 --branch 21b8d59 https:github.com/catppuccin/btop.git ./temp/catppuccin/btop
+    logInfo "Setting up Catppuccin Btop theme..."
+    git clone --depth 1 https://github.com/catppuccin/btop.git ./temp/catppuccin/btop
 fi
 
-# Create btop config directory
-mkdir -p ~/.config/btop/themes
-chmod -R 755 ~/.config/btop
+if [ ! -d ~/.config/btop/themes ]; then
+    # Create btop config directory
+    mkdir -p ~/.config/btop/themes
+    chmod -R 755 ~/.config/btop
 
-# Copy mocha theme
-cp ./temp/catppuccin/btop/themes/catppuccin_mocha.theme ~/.config/btop/themes/catppuccin.theme
-chmod 755 ~/.config/btop/themes/catppuccin.theme
-logSuccess "Btop theme installed"
+    # Copy mocha theme
+    cp ./temp/catppuccin/btop/themes/catppuccin_mocha.theme ~/.config/btop/themes/catppuccin.theme
+    chmod 755 ~/.config/btop/themes/catppuccin.theme
+    logSuccess "Btop theme installed"
+fi
 
 # GTK Theme
 logInfo "Setting up Catppuccin GTK theme..."
@@ -354,49 +351,50 @@ chmod 755 ~/.themes
 
 # Download and install GTK theme
 if [ ! -d ~/.themes/${GTK_THEME} ]; then
-    curl -L https://github.com/catppuccin/gtk/releases/download/v1.0.3/${GTK_THEME}.zip -o /tmp/${GTK_THEME}.
-zip
+    curl -L https://github.com/catppuccin/gtk/releases/download/v1.0.3/${GTK_THEME}.zip -o /tmp/${GTK_THEME}.zip
     unzip -q /tmp/${GTK_THEME}.zip -d ~/.themes/
     chmod -R 755 ~/.themes/${GTK_THEME}
 fi
 
-# Create GTK config directories
-mkdir -p ~/.config/gtk-4.0 ~/.config/gtk-3.0
-chmod 755 ~/.config/gtk-4.0 ~/.config/gtk-3.0
+if [ ! -d ~/.config/gtk-3/ ]; then
+    # Create GTK config directories
+    mkdir -p ~/.config/gtk-4.0 ~/.config/gtk-3.0
+    chmod 755 ~/.config/gtk-4.0 ~/.config/gtk-3.0
 
-# Copy settings.ini if it exists in the config directory
-if [ -f ./config/gtk/settings.ini ]; then
-    cp ./config/gtk/settings.ini ~/.config/gtk-3.0/
-    cp ./config/gtk/settings.ini ~/.config/gtk-4.0/
-    chmod 755 ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/settings.ini
-else
-    # Create basic settings file if it doesn't exist
-    echo "[Settings]" > ~/.config/gtk-3.0/settings.ini
-    echo "gtk-theme-name=${GTK_THEME}" >> ~/.config/gtk-3.0/settings.ini
-    cp ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/
-fi
-
-# Create symbolic links for GTK-4.0
-ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/assets ~/.config/gtk-4.0/assets
-ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/gtk.css ~/.config/gtk-4.0/gtk.css
-ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/gtk-dark.css ~/.config/gtk-4.0/gtk-dark.css
-
-# Enable theme in profile and rc files
-for file in ~/.profile ~/.zshrc ~/.bashrc; do
-    if ! grep -q "export GTK_THEME=\"${GTK_THEME}\"" "$file" 2>/dev/null; then
-        echo "export GTK_THEME=\"${GTK_THEME}\"" >> "$file"
+    # Copy settings.ini if it exists in the config directory
+    if [ -f ./config/gtk/settings.ini ]; then
+        cp ./config/gtk/settings.ini ~/.config/gtk-3.0/
+        cp ./config/gtk/settings.ini ~/.config/gtk-4.0/
+        chmod 755 ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/settings.ini
+    else
+        # Create basic settings file if it doesn't exist
+        echo "[Settings]" > ~/.config/gtk-3.0/settings.ini
+        echo "gtk-theme-name=${GTK_THEME}" >> ~/.config/gtk-3.0/settings.ini
+        cp ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/
     fi
-done
 
-# Make sure theme is in GTK settings
-if ! grep -q "gtk-theme-name=${GTK_THEME}" ~/.config/gtk-3.0/settings.ini; then
-    echo "gtk-theme-name=${GTK_THEME}" >> ~/.config/gtk-3.0/settings.ini
+    # Create symbolic links for GTK-4.0
+    ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/assets ~/.config/gtk-4.0/assets
+    ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/gtk.css ~/.config/gtk-4.0/gtk.css
+    ln -sf ~/.themes/${GTK_THEME}/gtk-4.0/gtk-dark.css ~/.config/gtk-4.0/gtk-dark.css
+
+    # Enable theme in profile and rc files
+    for file in ~/.profile ~/.zshrc ~/.bashrc; do
+        if ! grep -q "export GTK_THEME=\"${GTK_THEME}\"" "$file" 2>/dev/null; then
+            echo "export GTK_THEME=\"${GTK_THEME}\"" >> "$file"
+        fi
+    done
+
+    # Make sure theme is in GTK settings
+    if ! grep -q "gtk-theme-name=${GTK_THEME}" ~/.config/gtk-3.0/settings.ini; then
+        echo "gtk-theme-name=${GTK_THEME}" >> ~/.config/gtk-3.0/settings.ini
+    fi
+
+    logSuccess "GTK theme installed and configured"
+
 fi
 
-logSuccess "GTK theme installed and configured"
-
-# Qogir icon theme is already in the main install script, no need to duplicate
-logSuccess "Catppuccin themes installation completed!"
+printSuccess "Catppuccin themes installation completed!"
 
 # ----
 # Sway & waybar
