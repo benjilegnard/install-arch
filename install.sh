@@ -148,14 +148,14 @@ packageInstall "bat fastfetch lazygit"
 # tmux
 # ----
 if commandExists "tmux"; then
-    logInfo "Tmux already installed, skipping"
+    logInfo "Tmux 🔀 already installed, skipping"
 else
     packageInstall "tmux"
-    logSuccess "Tmux installed"
+    logSuccess "Tmux 🔀 installed"
 fi
 
 if [ -f ~/.config/tmux/tmux.conf ];then
-    logInfo "tmux already configured, skipping..."
+    logInfo "Tmux 🔀 already configured, skipping..."
 else
     mkdir -p ~/.config/tmux
     cp ./config/tmux/tmux.conf ~/.config/tmux/
@@ -176,15 +176,15 @@ fi
 packageInstall "gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc"
 # clone build
 if [ -d ./eww ];then
-    logInfo "eww already cloned, skipping..."
+    logInfo "eww 🤮 already cloned, skipping..."
 else
     git clone https://github.com/elkowar/eww
-    logSuccess "eww cloned successfully"
+    logSuccess "eww 🤮 cloned successfully"
 fi
 
 
 if commandExists "eww"; then
-    logInfo "eww already installed, skipping..."
+    logInfo "eww 🤮 already installed, skipping..."
 else
     cd ./eww
     cargo build --release --no-default-features --features=wayland
@@ -205,13 +205,13 @@ cp -r ./config/eww/eww.yuck ~/.config/eww/
 
 # - [x] helix
 if commandExists "helix"; then
-    logInfo "Helix editor already installed, skipping..."
+    logInfo "Helix 🧬 already installed, skipping..."
 else
     packageInstall "helix"
 fi
 
 if [ -f ~/.config/helix/config.toml ];then
-    logInfo "Helix already configured, skipping configuration..."
+    logInfo "Helix 🧬 already configured, skipping configuration..."
 else
     mkdir -p ~/.config/helix
     cp ./config/helix/config.toml ~/.config/helix/
@@ -219,8 +219,9 @@ fi
 
 # - [x] zsh and oh-my-zsh
 if [ -d ~/.oh-my-zsh ]; then
-    logInfo "OMZ already installed, skipping"
+    logInfo "OMZ 🔣 already installed, skipping..."
 else
+    logInfo "OMZ 🔣 not found, installing..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
@@ -228,11 +229,13 @@ cp ./config/zshrc ~/.zshrc
 
 # chsh -s $(which zsh)
 
-# - [x] starship
+# - [x] starship : https://starship.rs/
 if commandExists "starship"; then
-    logInfo "Starhip already installed, skipping..."
+    logInfo "Starship 🚀 already installed, skipping..."
 else
+    logInfo "Starship 🚀 not found, installing..."
     curl -sS https://starship.rs/install.sh | sh
+    logSuccess "Starship 🚀 installed"
 fi
 
 # hack nerd font and emojis
@@ -245,14 +248,14 @@ packageInstall "noto-fonts-emoji ttf-hack-nerd"
 # -----
 # icon themes
 if [ -d qogir-icon-theme ]; then
-    logInfo "Qogir icons already cloned, skipping..."
+    logInfo "Qogir icon theme 🖌️ already cloned, skipping..."
 else
     git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme || { logError "git clone failed"; exit 1; }
-    logSuccess "Qogir icon theme cloned sucessfully";
+    logSuccess "Qogir icon theme 🖌️ cloned sucessfully";
 fi
 
 if [ -d ~/.local/share/icons/Qogir ]; then
-    logInfo "Qogir theme already installed, skipping..."
+    logInfo "Qogir icon theme 🖌️ already installed, skipping..."
 else
     cd qogir-icon-theme
     ./install.sh
@@ -268,15 +271,17 @@ fi
 # Sway & waybar
 # ----
 if commandExists "sway"; then
-    logInfo "Sway already installed, skipping..."
+    logInfo "Sway 🪟 already installed, skipping..."
 else
+    logInfo "Sway 🪟 not found, installing..."
     packageInstall "sway swaylock swayidle swaync swaybg sway-contrib zenity"
-    logSuccess "sway installed"
+    logSuccess "Sway 🪟 installed"
 fi
 
 if commandExists "waybar"; then
-    logInfo "Waybar already installed, skipping..."
+    logInfo "Waybar 🍫 already installed, skipping..."
 else
+    logInfo "Waybar 🍫 not found, installing..."
     packageInstall "waybar rhythmbox"
 fi
 
@@ -293,6 +298,7 @@ sudo systemctl enable NetworkManager
 
 # - [ ] polkit : https://wiki.archlinux.org/title/Polkit#Authentication_agents
 packageInstall "polkit-gnome"
+
 # - [ ] desktop portal
 packageInstall "xdg-desktop-portal xdg-desktop-portal-wlr"
 
@@ -304,9 +310,11 @@ packageInstall "swww"
 # node.js
 # -------
 if [ -d ~/.nvm ]; then
-    logInfo "nvm already installed, skipping..."
+    logInfo "nvm 🔢 already installed, skipping..."
 else
+    logInfo "nvm 🔢 not found, installing..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    logSuccess "nvm 🔢 installed"
 fi
 
 
