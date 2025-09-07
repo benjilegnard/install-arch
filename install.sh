@@ -300,6 +300,50 @@ if [ -f /boot/grub/grub.cfg ]; then
 fi
 
 
+# Waybar Theme
+logInfo "Setting up Catppuccin Waybar theme..."
+if [ ! -d ./temp/catppuccin/waybar ]; then
+    git clone --depth 1 --branch ee8ed32 https:github.com/catppuccin/waybar.git ./temp/catppuccin/waybar
+fi
+
+# Create waybar config directory
+mkdir -p ~/.config/waybar
+chmod 755 ~/.config/waybar
+
+# Copy mocha theme
+cp ./temp/catppuccin/waybar/themes/mocha.css ~/.config/waybar/
+chmod 755 ~/.config/waybar/mocha.css
+logSuccess "Waybar theme installed"
+
+# Tmux Theme
+logInfo "Setting up Catppuccin Tmux theme..."
+mkdir -p ~/.config/tmux/plugins/catppuccin
+chmod -R 755 ~/.config/tmux/plugins
+
+# Clone catppuccin/tmux
+if [ ! -d ~/.config/tmux/plugins/catppuccin ]; then
+    git clone --depth 1 --branch v2.1.2 https:github.com/catppuccin/tmux.git ~/.
+config/tmux/plugins/catppuccin
+    logSuccess "Tmux theme installed"
+else
+    logInfo "Tmux theme already installed, skipping..."
+fi
+
+# Btop Theme
+logInfo "Setting up Catppuccin Btop theme..."
+if [ ! -d ./temp/catppuccin/btop ]; then
+    git clone --depth 1 --branch 21b8d59 https:github.com/catppuccin/btop.git ./temp/catppuccin/btop
+fi
+
+# Create btop config directory
+mkdir -p ~/.config/btop/themes
+chmod -R 755 ~/.config/btop
+
+# Copy mocha theme
+cp ./temp/catppuccin/btop/themes/catppuccin_mocha.theme ~/.config/btop/themes/catppuccin.theme
+chmod 755 ~/.config/btop/themes/catppuccin.theme
+logSuccess "Btop theme installed"
+
 # GTK Theme
 logInfo "Setting up Catppuccin GTK theme..."
 GTK_THEME="catppuccin-mocha-teal-standard+default"
