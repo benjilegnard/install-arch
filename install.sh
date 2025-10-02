@@ -70,11 +70,11 @@ packageInstall "clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon 
 packageInstall "gtklock grim slurp wl-clipboard libnewt libnotify"
 
 # Clone
-if [ -d ./fht-compositor ]; then
+if [ -d ./temp/fht-compositor ]; then
     logInfo "fht-compositor already cloned, skipping..."
 else
-    git clone https://github.com/nferhat/fht-compositor/
-    logSuccess "Cloned fht-compositor to ${CWD}/fht-compositor/"
+    git clone https://github.com/nferhat/fht-compositor/ temp/fht-compositor
+    logSuccess "Cloned fht-compositor to ${CWD}/temp/fht-compositor/"
 fi
 
 # Build
@@ -83,7 +83,7 @@ if [ -f /usr/local/bin/fht-compositor ]; then
     logInfo "fht-compositor already installed, skipping..."
 else
     logInfo "Compiling fht-compositor"
-    cd fht-compositor
+    cd temp/fht-compositor
     cargo build --profile opt --features systemd
     # You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
     sudo cp target/opt/fht-compositor /usr/local/bin/
@@ -175,10 +175,10 @@ fi
 # eww dynamic lib dependencies
 packageInstall "gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc"
 # clone build
-if [ -d ./eww ];then
+if [ -d ./temp/eww ];then
     logInfo "eww already cloned, skipping..."
 else
-    git clone https://github.com/elkowar/eww
+    git clone https://github.com/elkowar/eww temp/eww
     logSuccess "eww cloned successfully"
 fi
 
@@ -186,7 +186,7 @@ fi
 if commandExists "eww"; then
     logInfo "eww already installed, skipping..."
 else
-    cd ./eww
+    cd ./temp/eww
     cargo build --release --no-default-features --features=wayland
     chmod +x target/release/eww
     sudo cp target/release/eww /usr/local/bin/
@@ -247,14 +247,14 @@ packageInstall "noto-fonts-emoji ttf-hack-nerd"
 if [ -d qogir-icon-theme ]; then
     logInfo "Qogir icons already cloned, skipping..."
 else
-    git clone https://github.com/vinceliuice/Qogir-icon-theme qogir-icon-theme || { logError "git clone failed"; exit 1; }
+    git clone https://github.com/vinceliuice/Qogir-icon-theme temp/qogir-icon-theme || { logError "git clone failed"; exit 1; }
     logSuccess "Qogir icon theme cloned sucessfully";
 fi
 
 if [ -d ~/.local/share/icons/Qogir ]; then
     logInfo "Qogir theme already installed, skipping..."
 else
-    cd qogir-icon-theme
+    cd temp/qogir-icon-theme
     ./install.sh
     if [[ $? != 0 ]]; then
         logError "Qogir installation failed"
