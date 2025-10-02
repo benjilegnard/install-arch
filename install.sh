@@ -289,8 +289,7 @@ if [ -f /boot/grub/grub.cfg ]; then
     # Check if theme is already configured
     if ! grep -q "^GRUB_THEME=" /etc/default/grub; then
         # Add theme to grub config
-        sudo bash -c 'echo "GRUB_THEME=\"/usr/share/grub/themes/catppuccin-mocha-grub-theme/theme.txt\"" >>
-/etc/default/grub'
+        sudo bash -c 'echo "GRUB_THEME=\"/usr/share/grub/themes/catppuccin-mocha-grub-theme/theme.txt\"" >> /etc/default/grub'
         # Update grub
         sudo grub-mkconfig -o /boot/grub/grub.cfg
         logSuccess "GRUB theme installed and configured"
