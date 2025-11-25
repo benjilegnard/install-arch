@@ -244,7 +244,7 @@ packageInstall "noto-fonts-emoji ttf-hack-nerd"
 # qogir icons
 # -----
 # icon themes
-if [ -d qogir-icon-theme ]; then
+if [ -d ./temp/qogir-icon-theme ]; then
     logInfo "Qogir icons already cloned, skipping..."
 else
     git clone https://github.com/vinceliuice/Qogir-icon-theme temp/qogir-icon-theme || { logError "git clone failed"; exit 1; }
