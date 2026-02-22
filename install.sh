@@ -406,7 +406,7 @@ if commandExists "docker"; then
 else
     logInfo "docker 🐋 not found, installing..."
     packageInstall "docker"
-    sudo groupadd docker
+    # sudo groupadd docker
     sudo usermod -aG docker $USER
     sudo systemctl enable docker.service
     sudo systemctl enable containerd.service
