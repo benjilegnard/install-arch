@@ -22,16 +22,17 @@ packageInstall () {
 # create temp directory where we will clone repos
 mkdir -p ./temp
 
+# - [x] git and cli tools needed by other installer
+packageInstall "git zsh man zip unzip xdg-utils clang kitty"
+
 # - [x] rust
 # rustup install script
 if commandExists "rustup";then
     logInfo "Rust 🦀 is already installed, skipping..."
 else
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    packageInstall "rust rustup"
     # source env so cargo is available in the next steps
     source "$HOME/.cargo/env"
-    # - [x] git and cli tools needed
-    packageInstall "git zsh man zip unzip xdg-utils"
 fi
 
 # ------
@@ -41,60 +42,8 @@ fi
 packageInstall "greetd greetd-gtkgreet"
 sudo cp ./config/greetd/config.toml /etc/greetd/
 sudo cp ./config/greetd/sway-config /etc/greetd/
-sudo cp ./config/greetd/wlgreet.toml /etc/greetd/
+#sudo cp ./config/greetd/wlgreet.toml /etc/greetd/
 sudo systemctl enable greetd.service
-
-# - [x] wlgreet : https://git.sr.ht/~kennylevinsen/wlgreet
-if [ -d ./temp/wlgreet ]; then
-    logInfo "wlgreet repository already cloned, skipping..."
-else
-    git clone https://git.sr.ht/~kennylevinsen/wlgreet temp/wlgreet
-fi
-
-if [ -f /usr/local/bin/wlgreet ]; then
-    logInfo "wlgreet already installed, skipping..."
-else
-    cd ./temp/wlgreet
-    cargo build --release
-    sudo cp target/release/wlgreet /usr/local/bin/
-    cd -
-fi
-
-# --------------
-# fht-compositor
-# --------------
-# - [x] installation fht-compositor : https://nferhat.github.io/fht-compositor/
-# build dependencies
-packageInstall "clang mesa wayland udev seatd uwsm libdisplay-info libxkbcommon libinput libdrm pipewire dbus"
-# Recommended and deps
-packageInstall "gtklock grim slurp wl-clipboard libnewt libnotify"
-
-# Clone
-if [ -d ./temp/fht-compositor ]; then
-    logInfo "fht-compositor already cloned, skipping..."
-else
-    git clone https://github.com/nferhat/fht-compositor/ temp/fht-compositor
-    logSuccess "Cloned fht-compositor to ${CWD}/temp/fht-compositor/"
-fi
-
-# Build
-
-if [ -f /usr/local/bin/fht-compositor ]; then
-    logInfo "fht-compositor already installed, skipping..."
-else
-    logInfo "Compiling fht-compositor"
-    cd temp/fht-compositor
-    cargo build --profile opt --features systemd
-    # You can copy it to /usr/local/bin or ~/.local/bin, make sure its in $PATH though!
-    sudo cp target/opt/fht-compositor /usr/local/bin/
-
-    # Wayland session desktop files
-    sudo mkdir -p /usr/share/wayland-sessions
-    sudo install -Dm644 res/fht-compositor-uwsm.desktop -t /usr/share/wayland-sessions
-    cd -
-    logSuccess "fht-compositor Successfully installed !"
-fi
-
 
 # ---------
 # alacritty
@@ -169,34 +118,6 @@ else
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-# ---
-# eww
-# ---
-# eww dynamic lib dependencies
-packageInstall "gtk3 gtk-layer-shell pango cairo glib2 libdbusmenu-gtk3 gdk-pixbuf2 gcc-libs glibc"
-# clone build
-if [ -d ./temp/eww ];then
-    logInfo "eww 🤮 already cloned, skipping..."
-else
-    git clone https://github.com/elkowar/eww temp/eww
-    logSuccess "eww 🤮 cloned successfully"
-fi
-
-
-if commandExists "eww"; then
-    logInfo "eww 🤮 already installed, skipping..."
-else
-    cd ./temp/eww
-    cargo build --release --no-default-features --features=wayland
-    chmod +x target/release/eww
-    sudo cp target/release/eww /usr/local/bin/
-    cd -
-fi
-
-mkdir -p ~/.config/eww
-
-cp -r ./config/eww/eww.yuck ~/.config/eww/
-
 # - [ ] mako : https://github.com/emersion/mako
 
 # - [ ] wayland utils (wl-clipboard) https://github.com/sentriz/cliphist
@@ -239,7 +160,7 @@ else
 fi
 
 # hack nerd font and emojis
-packageInstall "noto-fonts-emoji ttf-hack-nerd"
+packageInstall "noto-fonts-emoji noto-fonts-cjk noto-fonts-extra ttf-hack-nerd"
 
 # - [ ] yazi : https://yazi-rs.github.io/
 
@@ -405,7 +326,7 @@ if commandExists "sway"; then
     logInfo "Sway 🪟 already installed, skipping..."
 else
     logInfo "Sway 🪟 not found, installing..."
-    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib zenity"
+    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib zenity grim slurp wl-clipboard wayland mesa"
     logSuccess "Sway 🪟 installed"
 fi
 
@@ -432,10 +353,6 @@ packageInstall "polkit-gnome"
 
 # - [ ] desktop portal
 packageInstall "xdg-desktop-portal xdg-desktop-portal-wlr"
-
-# - [ ] swww (wallpaper manager) https://github.com/LGFae/swww
-packageInstall "swww"
-# TODO automatic install of wallpapers + create script to randomize + transition
 
 # -------
 # node.js
