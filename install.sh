@@ -414,8 +414,9 @@ else
 fi
 
 # misc tools
-packageInstall "bat fastfetch lazygit lazydocker neovim firefox rhythmbox gimp blender obs-studio chromium mpv ffmpeg"
+packageInstall "make bat fastfetch lazygit lazydocker neovim firefox rhythmbox gimp blender obs-studio chromium mpv ffmpeg speech-dispatcher"
 
+packageInstall "thunar thunar-archive-plugin fileroller"
 
 #
 # Final checks
