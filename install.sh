@@ -90,9 +90,6 @@ else
     logSuccess "Rofi installed"
 fi
 
-# misc tools
-packageInstall "bat fastfetch lazygit"
-
 # ----
 # tmux
 # ----
@@ -334,7 +331,7 @@ if commandExists "waybar"; then
     logInfo "Waybar 🍫 already installed, skipping..."
 else
     logInfo "Waybar 🍫 not found, installing..."
-    packageInstall "waybar rhythmbox"
+    packageInstall "waybar"
 fi
 
 # network / wiki on macOS mini mid-2014, see:
@@ -364,6 +361,9 @@ else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
     logSuccess "nvm 🔢 installed"
 fi
+
+# misc tools
+packageInstall "bat fastfetch lazygit lazydocker neovim firefox steam rhythmbox gimp blender openscad wdisplays obs-studio"
 
 
 #
