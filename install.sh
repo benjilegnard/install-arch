@@ -413,7 +413,7 @@ else
 fi
 
 # misc tools
-packageInstall "bat fastfetch lazygit lazydocker neovim firefox rhythmbox gimp blender obs-studio"
+packageInstall "bat fastfetch lazygit lazydocker neovim firefox rhythmbox gimp blender obs-studio chromium mpv ffmpeg"
 
 
 #
