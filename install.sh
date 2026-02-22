@@ -323,7 +323,7 @@ if commandExists "sway"; then
     logInfo "Sway 🪟 already installed, skipping..."
 else
     logInfo "Sway 🪟 not found, installing..."
-    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib zenity grim slurp wl-clipboard wayland mesa"
+    packageInstall "sway swaylock swayidle swaync swaybg sway-contrib zenity grim slurp wl-clipboard wayland mesa wdisplays "
     logSuccess "Sway 🪟 installed"
 fi
 
@@ -362,8 +362,58 @@ else
     logSuccess "nvm 🔢 installed"
 fi
 
+# -------
+# claude
+# -------
+if commandExists "claude"; then
+    logInfo "claude 🤖 already installed, skipping..."
+else
+    logInfo "claude 🤖 not found, installing..."
+    curl -fsSL https://claude.ai/install.sh | bash
+    logSuccess "claude 🤖 installed"
+fi
+
+# --------
+# opencode
+# --------
+
+if commandExists "opencode"; then
+    logInfo "opencode 🤖 already installed, skipping..."
+else
+    logInfo "opencode 🤖 not found, installing..."
+    curl -fsSL https://opencode.ai/install | bash
+    logSuccess "opencode 🤖 installed"
+fi
+
+# --------
+# ollama - https://ollama.com/
+# --------
+if commandExists "ollama"; then
+    logInfo "ollama 🦙 already installed, skipping..."
+else
+    logInfo "ollama 🦙 not found, installing..."
+    curl -fsSL https://ollama.com/install.sh | sh
+    sudo systemctl enable ollama.service
+    logSuccess "ollama 🦙 installed"
+fi
+
+# ------
+# docker - https://docs.docker.com/desktop/setup/install/linux/archlinux/
+# ------
+if commandExists "docker"; then
+    logInfo "docker 🐋 already installed, skipping..."
+else
+    logInfo "docker 🐋 not found, installing..."
+    packageInstall "docker"
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    sudo systemctl enable docker.service
+    sudo systemctl enable containerd.service
+    logSuccess "docker 🐋 installed"
+fi
+
 # misc tools
-packageInstall "bat fastfetch lazygit lazydocker neovim firefox steam rhythmbox gimp blender openscad wdisplays obs-studio"
+packageInstall "bat fastfetch lazygit lazydocker neovim firefox rhythmbox gimp blender obs-studio"
 
 
 #
