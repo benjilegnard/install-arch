@@ -145,7 +145,7 @@ else
 fi
 
 cp ./config/zshrc ~/.zshrc
-
+cp -r ./config/zsh ~/.config/
 # chsh -s $(which zsh)
 
 # - [x] starship : https://starship.rs/

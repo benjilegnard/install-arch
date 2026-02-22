@@ -2,3 +2,5 @@
 .idea
 .github
 .vscode
+
+config/zsh/exports/local.zsh
