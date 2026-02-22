@@ -31,6 +31,7 @@ if commandExists "rustup";then
     logInfo "Rust 🦀 is already installed, skipping..."
 else
     packageInstall "rust rustup"
+    rustup update stable
     # source env so cargo is available in the next steps
     source "$HOME/.cargo/env"
 fi
