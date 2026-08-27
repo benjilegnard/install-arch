@@ -1,11 +1,17 @@
-# BenjiLeGnard's Arch setup
+<div align="center">
+<img src="./assets/canarchy-logo.svg" style="width: 100px; height: 100px;" alt="a duck silouhette on a rainbow background"/>
 
-This is just an installation script for a minimal Arch setup.
+# CANARCHY
+<p>BenjiLeGnard's minimal Arch setup</p>
+</div>
 
-Made live on [stream](https://twitch.tv/benjilegnard) in order to test some linux wayland compositor and rust-based tools
+This is just an installation script for a basic Arch setup.
+
+Made live on [stream](https://twitch.tv/benjilegnard) in order to test some linux wayland compositor and try mainly rust-based tools
 
 > [!WARNING]
 > I do not maintain this anymore, most of the script has been integrated in my [dotfiles](https://github.com/benjilegnard/dotfiles/)
+> I decline all responsability if you use this and brick you computer, the script is provided as-is, with no garanty etc...
 
 ## Features
 
@@ -31,8 +37,8 @@ Install a base arch system, preferably server or minimal.
 
 ```bash
 sudo pacman -S git
-git clone https://github.com/benjilegnard/install-arch.git
-cd install-arch
+git clone https://github.com/benjilegnard/canarchy.git
+cd canarchy
 ./install.sh
 ```
 
@@ -64,7 +70,8 @@ Follow the prompts.
     - [ ] battery
     - [ ] systray
   - [ ] powermenu (logout/poweroff/reboot)
-  - [ ] launcher ? (rofi/fzf)
+  - [ ] launcher ? (rofi or sirula ?)
   - [ ] notifs ??
   - [ ] dashboard...
 - [ ] réintégration dans dépot dotfiles + copie des reps nvim tmux
+
