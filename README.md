@@ -10,7 +10,9 @@ This is just an installation script for a basic Arch setup.
 Made live on [stream](https://twitch.tv/benjilegnard) in order to test some linux wayland compositor and try mainly rust-based tools
 
 > [!WARNING]
-> I do not maintain this anymore, most of the script has been integrated in my [dotfiles](https://github.com/benjilegnard/dotfiles/)
+> I do not really maintain this anymore, most of the script has been integrated in my [dotfiles](https://github.com/benjilegnard/dotfiles/), and it has derailed from the original intent. I'll come back to it sometimes.
+
+> [!IMPORTANT]
 > I decline all responsability if you use this and brick you computer, the script is provided as-is, with no garanty etc...
 
 ## Features
@@ -18,9 +20,9 @@ Made live on [stream](https://twitch.tv/benjilegnard) in order to test some linu
 Install a minimal wayland graphical environment with :
 
 - [fht-compositor](https://nferhat.github.io/fht-compositor/) ([github](https://github.com/nferhat/fht-compositor/)) To manage windows.
-- [alacritty](https://alacritty.org/) ([github](https://github.com/alacritty/alacritty/)) for terminal emulation
 - [eww](https://elkowar.github.io/eww/), Elkowars Wacky Widgets ([github](https://github.com/elkowar/eww/)) for topbar and launchers
-- [swww](https://github.com/LGFae/swww/), "A Solution to your Wayland Wallpaper Woes" for wallpaper management
+- [awww](https://codeberg.org/LGFae/awww), "An Answer to your Wayland Wallpaper Woes" for wallpaper management
+- [alacritty](https://alacritty.org/) ([github](https://github.com/alacritty/alacritty/)) for terminal emulation
 
 And additional tools:
 - [zsh & oh-my-zsh](https://ohmyz.sh/) for shell
@@ -48,6 +50,7 @@ Follow the prompts.
 
 - [x] installer un greeter greetd + wlgreet
 - [x] conditionner install.sh pour rejouabilité
+  - [ ] rewrite it in rust ?
 - [x] ajouter --noconfirm / --needed aux commandes pacman
 - [x] ajouter logs / couleurs au script d'install
 - [x] automatiser + installer eww + daemon
@@ -60,8 +63,9 @@ Follow the prompts.
   - [ ] choose a theme lol
 - [ ] ... + profit ?
 - [ ] faire nos propres widgets eww
-  - [ ] waybar
+  - [ ] remplacement de waybar
     - [ ] workspaces
+    - [ ] window name
     - [ ] date + calendar
     - [ ] music player
     - [ ] stats system
@@ -69,9 +73,13 @@ Follow the prompts.
     - [ ] brightness
     - [ ] battery
     - [ ] systray
+    - [ ] idle_inhibitor
+    - [ ] airplane_mode ?
   - [ ] powermenu (logout/poweroff/reboot)
-  - [ ] launcher ? (rofi or sirula ?)
+  - [ ] launcher ? (rofi or [sirula](https://github.com/DorianRudolph/sirula) ?)
   - [ ] notifs ??
+    - [ ] mako ou dunst
   - [ ] dashboard...
-- [ ] réintégration dans dépot dotfiles + copie des reps nvim tmux
-
+    - [ ] logs ?
+- [ ] ~~réintégration dans dépot dotfiles~~
+- [ ] awww + wallpaper picker
